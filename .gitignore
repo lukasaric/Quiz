@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+
+# Configuration
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Editors
+.idea
+*.sublime-*
+.vscode
+
+# Build artifacts
+client/dist/
+
+# General
+.DS_Store
+
+# json file with questions and answers
+questions.json
+
+# Database
+*.sqlite
