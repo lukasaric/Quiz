@@ -3,6 +3,8 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../database').User;
 
 passport.serializeUser((user, done) => {
@@ -13,6 +15,17 @@ passport.deserializeUser((id, done) => {
   User.findById(id)
     .then(user => done(null, user));
 });
+
+passport.use(new JwtStrategy({
+  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+  secretOrKey: process.env.JWT_SECRET
+}, async (payload, done) => {
+  try {
+
+  } catch (error) {
+    done(error, false);
+  }
+}));
 
 passport.use('register', new LocalStrategy({
   usernameField: 'email',

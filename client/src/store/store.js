@@ -28,7 +28,7 @@ export default new Vuex.Store({
     },
     clearUser(state, user) {
       state.user = user;
-      state.googleUser = JSON.parse(window.localStorage.removeItem('googleUser'));
+      state.googleUser = user;
     },
     setTopicId(state, topicId) {
       state.topicId = topicId;
@@ -42,7 +42,7 @@ export default new Vuex.Store({
       commit('setGoogleUser', user);
     },
     clearUser({commit}, user) {
-      commit('setUser', user);
+      commit('clearUser', user);
     },
     setTopicId({commit}, topicId) {
       commit('setTopicId', topicId);
