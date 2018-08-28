@@ -1,3 +1,3 @@
-# Project Rozga
+# devRhapsody Quiz
 
-Team Rozga EE Summer Camp 2018 project
+Vue.js / Express.js web app educational quiz.

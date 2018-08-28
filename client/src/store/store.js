@@ -9,7 +9,6 @@ export default new Vuex.Store({
   strict: true,
   state: {
     googleUser: null,
-    cookie: window.sessionStorage.getItem('eyJwYXNzcG9ydCI6eyJ1c2VyIjoyfX0='),
     user: null,
     topicId: 0
   },
@@ -26,10 +25,6 @@ export default new Vuex.Store({
       state.user = user;
       state.googleUser = user;
     },
-    clearUser(state, user) {
-      state.user = user;
-      state.googleUser = user;
-    },
     setTopicId(state, topicId) {
       state.topicId = topicId;
     }
@@ -40,9 +35,6 @@ export default new Vuex.Store({
     },
     setGoogleUser({commit}, user) {
       commit('setGoogleUser', user);
-    },
-    clearUser({commit}, user) {
-      commit('clearUser', user);
     },
     setTopicId({commit}, topicId) {
       commit('setTopicId', topicId);

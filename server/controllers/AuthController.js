@@ -1,79 +1,54 @@
 'use strict';
 
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20');
-const LocalStrategy = require('passport-local').Strategy;
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const User = require('../database').User;
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
+const Mustache = require('mustache');
+const templatePath = path.join(__dirname, '../views/Authenticated.mustache');
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
+const signToken = user => {
+  return jwt.sign({
+    sub: user.id
+  }, process.env.JWT_SECRET, { expiresIn: '2d' });
+};
 
-passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then(user => done(null, user));
-});
-
-passport.use(new JwtStrategy({
-  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  secretOrKey: process.env.JWT_SECRET
-}, async (payload, done) => {
-  try {
-
-  } catch (error) {
-    done(error, false);
-  }
-}));
-
-passport.use('register', new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password'
-}, (email, password, done) => {
-  const where = { email };
-  User.findOne({ where })
-    .then(user => {
-      if (user) {
-        return done(null, false, { message: 'Email is already taken.' });
+function loadMustache(path) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
       }
-      User.create({ email, password })
-        .then(user => done(null, user))
-        .catch(err => {
-          if (err.name === 'SequelizeValidationError') {
-            return done(null, false, { message: 'Invalid input form.' });
-          }
-          done(err);
-        });
+      resolve(data);
     });
-}));
+  });
+}
 
-passport.use('login', new LocalStrategy({
-  usernameField: 'email'
-}, (username, password, done) => {
-  const where = { email: username };
-  User.findOne({ where })
-    .then(async user => {
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+module.exports = {
+  register: (req, res) => {
+    passport.authenticate('register', () => {
+      res.send(req.body);
+    })(req, res);
+  },
+  login: (req, res) => {
+    passport.authenticate('login', { session: false }, (err, user, info) => {
+      if (err || !user) {
+        return res.status(400).json({
+          message: info ? info.message : 'Login failed.',
+          user: user
+        });
       }
-      const isValidPassword = await user.comparePassword(password, user.password);
-      if (isValidPassword) return done(null, user);
-      done(null, false, { message: 'Incorrect password.' });
-    })
-    .catch(err => done(err));
-}));
-
-passport.use(
-  new GoogleStrategy({
-    callbackURL: '/auth/google/redirect',
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET
-  }, (accessToken, refreshToken, profile, done) => {
-    const where = { googleId: profile.id };
-    const defaults = { ...where, username: profile.displayName };
-    User.findOrCreate({ where, defaults })
-      .spread(user => done(null, user))
-      .catch(error => done(error, false, error.message));
-  })
-);
+      req.login(user, { session: false }, (err) => {
+        if (err) res.send(err);
+        const token = signToken(user);
+        return res.json({ user, token });
+      });
+    })(req, res);
+  },
+  googleLogin: (req, res) => {
+    loadMustache(templatePath)
+      .then(template => Mustache.render(template, { user: JSON.stringify(req.user.toJSON()) }))
+      .then(html => res.send(html));
+  }
+};

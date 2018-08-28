@@ -88,8 +88,6 @@ export default {
 
     async logout() {
       try {
-        await this.$store.dispatch('clearUser', null);
-        await JSON.parse(localStorage.removeItem('googleUser'));
       } catch (error) {
         this.error = error;
       }

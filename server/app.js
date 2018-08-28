@@ -8,26 +8,19 @@ const createTest = require('./routes/createTest');
 const profileStats = require('./routes/profileStats');
 const authRoutes = require('./routes/authRoutes');
 const passport = require('passport');
-const cookieSession = require('cookie-session');
 const app = express();
-require('./controllers/AuthController');
+require('./passport-setup');
 
 const port = process.env.PORT;
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 
-app.use(cookieSession({
-  maxAge: 24 * 60 * 60 * 1000,
-  keys: [process.env.COOKIE_KEY]
-}));
-
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.use('/auth', authRoutes);
-app.use('/profile', profileStats);
-app.use('/topic', createTest);
+app.use('/profile', passport.authenticate('jwt', { session: false }), profileStats);
+app.use('/topic', passport.authenticate('jwt', { session: false }), createTest);
 
 sequelize.sync()
   .then(() => {
