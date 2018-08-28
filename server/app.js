@@ -12,6 +12,7 @@ const app = express();
 require('./passport-setup');
 
 const port = process.env.PORT;
+const authenticate = passport.authenticate('jwt', { session: false });
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
@@ -19,8 +20,8 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 app.use('/auth', authRoutes);
-app.use('/profile', passport.authenticate('jwt', { session: false }), profileStats);
-app.use('/topic', passport.authenticate('jwt', { session: false }), createTest);
+app.use('/profile', authenticate, profileStats);
+app.use('/topic', authenticate, createTest);
 
 sequelize.sync()
   .then(() => {

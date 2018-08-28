@@ -5,7 +5,9 @@ const passport = require('passport');
 const AuthController = require('../controllers/AuthController');
 const googlePassport = passport.authenticate('google', {scope: ['profile']});
 
-router.post('/register', AuthController.register);
+router.post('/register', passport.authenticate('register'), (req, res) => {
+  res.send(req.user);
+});
 
 router.post('/login', AuthController.login);
 

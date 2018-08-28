@@ -7,11 +7,9 @@ const path = require('path');
 const Mustache = require('mustache');
 const templatePath = path.join(__dirname, '../views/Authenticated.mustache');
 
-const signToken = user => {
-  return jwt.sign({
-    sub: user.id
-  }, process.env.JWT_SECRET, { expiresIn: '2d' });
-};
+function createToken(user, expiresIn = '2d') {
+  return jwt.sign({ sub: user.id }, process.env.JWT_SECRET, { expiresIn });
+}
 
 function loadMustache(path) {
   return new Promise((resolve, reject) => {
@@ -26,11 +24,6 @@ function loadMustache(path) {
 }
 
 module.exports = {
-  register: (req, res) => {
-    passport.authenticate('register', () => {
-      res.send(req.body);
-    })(req, res);
-  },
   login: (req, res) => {
     passport.authenticate('login', { session: false }, (err, user, info) => {
       if (err || !user) {
@@ -41,14 +34,17 @@ module.exports = {
       }
       req.login(user, { session: false }, (err) => {
         if (err) res.send(err);
-        const token = signToken(user);
+        const token = createToken(user);
         return res.json({ user, token });
       });
     })(req, res);
   },
   googleLogin: (req, res) => {
     loadMustache(templatePath)
-      .then(template => Mustache.render(template, { user: JSON.stringify(req.user.toJSON()) }))
+      .then(template => {
+        const user = JSON.stringify(req.user.toJSON());
+        return Mustache.render(template, { user });
+      })
       .then(html => res.send(html));
   }
 };

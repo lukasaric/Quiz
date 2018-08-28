@@ -20,9 +20,7 @@ passport.use(new JwtStrategy({
   secretOrKey: process.env.JWT_SECRET
 }, (payload, done) => {
   return User.findOne({ id: payload.sub })
-    .then(user => {
-      return done(null, user);
-    })
+    .then(user => done(null, user))
     .catch(err => done(err));
 }));
 
@@ -36,11 +34,11 @@ passport.use('register', new LocalStrategy({
       if (user) {
         return done(null, false, { message: 'Email is already taken.' });
       }
-      User.create({ email, password })
+      return User.create({ email, password })
         .then(user => done(null, user))
         .catch(err => {
           if (err.name === 'SequelizeValidationError') {
-            return done(null, false, { message: 'Invalid input form.' });
+            done(null, false, { message: 'Invalid input form.' });
           }
           done(err);
         });
@@ -56,7 +54,7 @@ passport.use('login', new LocalStrategy({
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      const isValidPassword = await user.comparePassword(password, user.password);
+      const isValidPassword = await user.comparePassword(password);
       if (isValidPassword) return done(null, user);
       done(null, false, { message: 'Incorrect password.' });
     })
