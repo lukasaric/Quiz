@@ -24,16 +24,6 @@ function loadMustache(path) {
 }
 
 module.exports = {
-  register: (req, res) => {
-    passport.authenticate('register', (err, user, info) => {
-      if (err || !user) {
-        return res.status(400).json({
-          message: info ? info.message : 'Register failed.',
-          user: user
-        });
-      }
-    })(req, res);
-  },
   login: (req, res) => {
     passport.authenticate('login', { session: false }, (err, user, info) => {
       if (err || !user) {
@@ -45,7 +35,8 @@ module.exports = {
       req.login(user, { session: false }, (err) => {
         if (err) res.send(err);
         const token = createToken(user);
-        return res.json({ user, token });
+        const message = 'Succesfully logged in.';
+        return res.status(200).json({ user, token, message });
       });
     })(req, res);
   },

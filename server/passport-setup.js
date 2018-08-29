@@ -30,14 +30,12 @@ passport.use('register', new LocalStrategy({
 }, (email, password, done) => {
   const where = { email };
   return User.findOne({ where })
-    .then(user => {
-      if (user) {
-        return done(null, false, { message: 'Email is already taken.' });
-      }
+    .then((user) => {
+      if (user) return done(null, false);
       User.create({ email, password })
         .then(user => done(null, user))
-        .catch({ name: 'SequelizeValidationError' }, e => {
-          done(null, false, { message: 'Invalid input form.' });
+        .catch({ name: 'SequelizeValidationError' }, err => {
+          done(err, false);
         })
         .catch(err => done(err));
     });
