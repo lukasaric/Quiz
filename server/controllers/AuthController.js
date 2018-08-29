@@ -24,6 +24,16 @@ function loadMustache(path) {
 }
 
 module.exports = {
+  register: (req, res) => {
+    passport.authenticate('register', (err, user, info) => {
+      if (err || !user) {
+        return res.status(400).json({
+          message: info ? info.message : 'Register failed.',
+          user: user
+        });
+      }
+    })(req, res);
+  },
   login: (req, res) => {
     passport.authenticate('login', { session: false }, (err, user, info) => {
       if (err || !user) {
