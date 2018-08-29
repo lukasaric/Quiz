@@ -6,8 +6,8 @@ const AuthController = require('../controllers/AuthController');
 const googlePassport = passport.authenticate('google', {scope: ['profile']});
 
 router.post('/register',
-  passport.authenticate('register', { failWithError: true }), (res, req) => {
-    res.status(200).send(req.body);
+  passport.authenticate('register', { failWithError: true }), (req, res) => {
+    res.status(200).send(req.user);
   });
 
 router.post('/login', AuthController.login);
@@ -19,17 +19,5 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 });
 
 router.get('/authenticated', AuthController.googleLogin);
-
-router.use((err, req, res, next) => {
-  if (err.name === 'AuthenticationError') {
-    res.status(401).send({
-      message: 'User already exists.'
-    });
-  } else if (err.name === 'SequelizeValidationError') {
-    res.status(401).send({
-      message: 'Invalid input form.'
-    });
-  }
-});
 
 module.exports = router;

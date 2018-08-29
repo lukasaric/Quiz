@@ -19,9 +19,21 @@ app.use(bodyParser.json());
 
 app.use(passport.initialize());
 
-app.use('/auth', authRoutes);
+app.use('/auth', authRoutes, handleError);
 app.use('/profile', authenticate, profileStats);
 app.use('/topic', authenticate, createTest);
+
+function handleError(err, req, res, next) {
+  if (err.name === 'AuthenticationError') {
+    res.status(401).send({
+      message: 'User already exists.'
+    });
+  } else if (err.name === 'SequelizeValidationError') {
+    res.status(401).send({
+      message: 'Invalid input form.'
+    });
+  }
+}
 
 sequelize.sync()
   .then(() => {
