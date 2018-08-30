@@ -43,9 +43,10 @@ module.exports = {
   googleLogin: (req, res) => {
     loadMustache(templatePath)
       .then(template => {
-        const user = JSON.stringify(req.user.toJSON());
-        return Mustache.render(template, { user });
+        const token = createToken(req.user);
+        return Mustache.render(template, { token });
       })
-      .then(html => res.send(html));
+      .then(html => res.send(html))
+      .catch(err => res.send(err));
   }
 };
