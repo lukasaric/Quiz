@@ -62,7 +62,7 @@ export default {
       }
     },
     async googleLogin() {
-      const googleUser = await JSON.parse(localStorage.getItem('googleUser'));
+      const googleUser = await JSON.parse(localStorage.getItem('googleToken'));
       this.$store.dispatch('setGoogleUser', googleUser);
       this.$router.push({ path: '/topics' });
     }

@@ -44,9 +44,9 @@ module.exports = {
     loadMustache(templatePath)
       .then(template => {
         const token = createToken(req.user);
-        // const user = JSON.stringify(req.user.toJSON());
         return Mustache.render(template, { token });
       })
-      .then(html => res.send(html));
+      .then(html => res.send(html))
+      .catch(err => res.send(err));
   }
 };
