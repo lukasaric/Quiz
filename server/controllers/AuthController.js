@@ -35,7 +35,7 @@ module.exports = {
       req.login(user, { session: false }, (err) => {
         if (err) res.send(err);
         const token = createToken(user);
-        const message = 'Succesfully logged in.';
+        const message = 'Successfully logged in.';
         return res.status(200).json({ user, token, message });
       });
     })(req, res);
@@ -43,8 +43,9 @@ module.exports = {
   googleLogin: (req, res) => {
     loadMustache(templatePath)
       .then(template => {
-        const user = JSON.stringify(req.user.toJSON());
-        return Mustache.render(template, { user });
+        const token = createToken(req.user);
+        // const user = JSON.stringify(req.user.toJSON());
+        return Mustache.render(template, { token });
       })
       .then(html => res.send(html));
   }

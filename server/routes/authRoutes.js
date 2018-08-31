@@ -14,9 +14,10 @@ router.post('/login', AuthController.login);
 
 router.get('/google', googlePassport);
 
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  res.redirect('http://localhost:8080/auth/authenticated');
-});
+router.get('/google/redirect',
+  passport.authenticate('google', { session: false }), (req, res) => {
+    res.redirect('http://localhost:8080/auth/authenticated');
+  });
 
 router.get('/authenticated', AuthController.googleLogin);
 

@@ -88,6 +88,8 @@ export default {
 
     async logout() {
       try {
+        this.$store.dispatch('setToken', null);
+        this.$store.dispatch('setUser', null);
       } catch (error) {
         this.error = error;
       }
