@@ -6,10 +6,11 @@ import Register from '@/components/Register';
 import Topics from '@/components/Topics';
 import Profile from '@/components/Profile';
 import Test from '@/components/Test';
+import store from '@/store/store';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -43,3 +44,17 @@ export default new Router({
     }
   ]
 });
+
+const openRoutes = ['login', 'register'];
+
+router.beforeEach((to, from, next) => {
+  if (openRoutes.includes(to.name)) {
+    next();
+  } else if (store.getters.isAuthenticated) {
+    next();
+  } else {
+    next('/login');
+  }
+});
+
+export default router;

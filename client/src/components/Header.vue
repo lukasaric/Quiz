@@ -86,13 +86,10 @@ export default {
       this.$router.push(route);
     },
 
-    async logout() {
-      try {
-        this.$store.dispatch('setToken', null);
-        this.$store.dispatch('setUser', null);
-      } catch (error) {
-        this.error = error;
-      }
+    logout() {
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push('/login');
+      });
     }
   }
 };

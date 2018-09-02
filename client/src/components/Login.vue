@@ -38,7 +38,6 @@
 </template>;
 
 <script>
-import AuthService from '@/services/AuthService';
 export default {
   data() {
     return {
@@ -48,23 +47,12 @@ export default {
     };
   },
   methods: {
-    async login() {
-      try {
-        const response = await AuthService.login({
-          email: this.email,
-          password: this.password
+    login() {
+      const credentials = { email: this.email, password: this.password };
+      this.$store.dispatch('login', credentials)
+        .then(() => {
+          this.$router.push({ path: '/topics' });
         });
-        this.$store.dispatch('setToken', response.data.token);
-        this.$store.dispatch('setUser', response.data.user);
-        this.$router.push({ path: '/topics' });
-      } catch (error) {
-        this.error = error;
-      }
-    },
-    async googleLogin() {
-      const googleUser = await JSON.parse(localStorage.getItem('googleToken'));
-      this.$store.dispatch('setGoogleUser', googleUser);
-      this.$router.push({ path: '/topics' });
     }
   }
 };

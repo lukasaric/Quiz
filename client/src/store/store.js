@@ -1,49 +1,64 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import VueCookies from 'vue-cookies';
+import AuthService from '@/services/AuthService';
+import axios from '@/services/Api';
 
-Vue.use(VueCookies);
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   strict: true,
   state: {
-    token: null,
+    token: localStorage.getItem('token') || '',
     user: null,
     status: '',
     topicId: 0
   },
   getters: {
-    isUserLoggedIn(state) {
-      return !!state.token;
-    },
-    authStatus(state) {
-      return state.status;
-    }
+    isAuthenticated: state => !!state.token,
+    authStatus: state => state.status
   },
   mutations: {
-    setUser(state, user) {
-      state.user = user;
-    },
-    setToken(state, token) {
-      state.token = token;
-      state.status = status;
-      window.localStorage.setItem('token', token);
-      if (token === null) window.localStorage.removeItem('token', token);
-    },
     setTopicId(state, topicId) {
       state.topicId = topicId;
+    },
+    authSuccess(state, token) {
+      state.token = token;
+      state.status = 'success';
+    },
+    authError(state) {
+      state.token = '';
+      state.status = 'error';
     }
   },
   actions: {
-    setUser({commit}, user) {
-      commit('setUser', user);
-    },
-    setToken({commit}, token) {
-      commit('setToken', token);
-    },
     setTopicId({commit}, topicId) {
       commit('setTopicId', topicId);
+    },
+    login(context, payload) {
+      return new Promise((resolve, reject) => {
+        AuthService.login(payload)
+          .then(response => {
+            const accessToken = response.data.token;
+            context.commit('authSuccess', accessToken);
+            localStorage.setItem('token', accessToken);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            resolve(response);
+          })
+          .catch(err => {
+            window.localStorage.removeItem('token');
+            context.commit('authError');
+            reject(err);
+          });
+      });
+    },
+    logout(context) {
+      return new Promise((resolve, reject) => {
+        context.commit('authLogout');
+        localStorage.removeItem('token');
+        delete axios.defaults.headers.common['Authorization'];
+        resolve();
+      });
     }
+
   }
 });

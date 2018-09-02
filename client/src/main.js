@@ -13,6 +13,7 @@ import 'material-icons/iconfont/material-icons.css';
 Vue.use(Buefy, {
   defaultIconPack: 'mdi'
 });
+
 Vue.config.productionTip = false;
 
 sync(store, router);
