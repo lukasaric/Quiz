@@ -35,8 +35,10 @@ module.exports = {
       req.login(user, { session: false }, (err) => {
         if (err) res.send(err);
         const token = createToken(user);
+        const userCredentials = { id: user.id, email: user.email };
+        user = Object.assign({}, userCredentials, { token });
         const message = 'Successfully logged in.';
-        return res.status(200).json({ user, token, message });
+        return res.status(200).json({ user, message });
       });
     })(req, res);
   },

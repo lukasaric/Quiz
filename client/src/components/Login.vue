@@ -30,7 +30,7 @@
             </router-link>
             <a @click="login" class="button is-light is-pulled-right" >Log In</a>
           </div>
-          <a @click="googleLogin" href="/auth/google" target="_blank" class="button has-text-white is-text is-small is-centered">Log In with Google</a>
+          <a href="/auth/google" target="_blank" class="button has-text-white is-text is-small is-centered">Log In with Google</a>
         </div>
       </div>
     </div>

@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     loggedIn() {
-      return this.$store.getters.isUserLoggedIn;
+      return this.$store.getters.isAuthenticated;
     }
   },
   methods: {

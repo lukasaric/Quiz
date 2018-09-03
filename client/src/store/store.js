@@ -21,13 +21,19 @@ export default new Vuex.Store({
     setTopicId(state, topicId) {
       state.topicId = topicId;
     },
-    authSuccess(state, token) {
-      state.token = token;
+    authSuccess(state, user) {
+      state.token = user.token;
+      state.user = user;
       state.status = 'success';
     },
     authError(state) {
       state.token = '';
       state.status = 'error';
+    },
+    authLogout(state) {
+      state.token = '';
+      state.user = null;
+      state.status = 'Logged out.';
     }
   },
   actions: {
@@ -38,14 +44,15 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         AuthService.login(payload)
           .then(response => {
-            const accessToken = response.data.token;
-            context.commit('authSuccess', accessToken);
-            localStorage.setItem('token', accessToken);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            const user = response.data.user;
+            context.commit('authSuccess', user);
+            localStorage.setItem('token', user.token);
+            localStorage.setItem('user', JSON.stringify(user));
+            axios.defaults.headers.Authorization = `Bearer ${user.token}`;
             resolve(response);
           })
           .catch(err => {
-            window.localStorage.removeItem('token');
+            localStorage.removeItem('token');
             context.commit('authError');
             reject(err);
           });
@@ -54,8 +61,9 @@ export default new Vuex.Store({
     logout(context) {
       return new Promise((resolve, reject) => {
         context.commit('authLogout');
+        localStorage.removeItem('user');
         localStorage.removeItem('token');
-        delete axios.defaults.headers.common['Authorization'];
+        delete axios.defaults.headers.Authorization;
         resolve();
       });
     }
