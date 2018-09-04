@@ -15,7 +15,10 @@ const router = new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
@@ -30,30 +33,40 @@ const router = new Router({
     {
       path: '/topics',
       name: 'topics',
-      component: Topics
+      component: Topics,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/profile',
       name: 'profile',
-      component: Profile
+      component: Profile,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/test',
       name: 'test',
-      component: Test
+      component: Test,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 });
 
-const openRoutes = ['login', 'register'];
-
 router.beforeEach((to, from, next) => {
-  if (openRoutes.includes(to.name)) {
-    next();
-  } else if (store.getters.isAuthenticated) {
-    next();
-  } else {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const currentUser = store.state.user;
+
+  if (requiresAuth && !currentUser) {
     next('/login');
+  } else if ((to.path === '/login' || to.path === '/register') && currentUser) {
+    next('/');
+  } else {
+    next();
   }
 });
 
