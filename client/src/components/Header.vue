@@ -88,6 +88,7 @@ export default {
 
     logout() {
       this.$store.dispatch('logout').then(() => {
+        this.$toast.open('Successfully logged out.');
         this.$router.push('/login');
       });
     }

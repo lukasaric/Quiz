@@ -51,6 +51,11 @@ export default {
       const credentials = { email: this.email, password: this.password };
       this.$store.dispatch('login', credentials)
         .then(() => {
+          this.$toast.open({
+            message: 'Successfully logged in',
+            type: 'is-success',
+            position: 'is-bottom-right'
+          });
           this.$router.push({ path: '/topics' });
         });
     }
