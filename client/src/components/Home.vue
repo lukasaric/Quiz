@@ -13,14 +13,31 @@
           <p class="is-size-5 center has-text-white">
             Test your knowledge!
           </p> <br>
-          <router-link to="/login">
-            <a class="button center is-rounded is-medium">Start </a>
-          </router-link>
+          <div v-if="!loggedIn">
+            <a @click="navigateTo('/login')" class="button center is-rounded is-medium">Start </a>
+          </div>
+          <div v-else-if="loggedIn">
+            <a @click="navigateTo('/topics')" class="button center is-rounded is-medium">Start </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </template>
+
+<script>
+
+export default {
+  methods: {
+    loggedIn() {
+      return this.$store.getters.isAuthenticated;
+    },
+    navigateTo(route) {
+      this.$router.push(route);
+    }
+  }
+};
+</script>
 
 <style scoped>
 .center {

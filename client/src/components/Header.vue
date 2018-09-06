@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">
+      <a @click="navigateTo('/')" class="navbar-item">
         <img src="../assets/devRhcrop.png" alt="devRhapsody"/>
       </a>
     </div>
@@ -29,7 +29,7 @@
           </div>
           <div v-else>
             <b-dropdown-item custom>
-              Logged in as <b> {{ this.$store.state.user.username || this.$store.state.user.email }}</b>
+              Logged in as <b> {{ this.$store.state.user.email || this.$store.state.user.username }}</b>
             </b-dropdown-item>
             <div v-for="(item, index) in items" :key="index">
               <hr class="dropdown-divider"/>
