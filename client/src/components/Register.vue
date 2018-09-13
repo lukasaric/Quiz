@@ -1,37 +1,44 @@
 <template>
-  <section>
-    <div class="hero-body">
-      <div class="columns is-centered">
-        <div class="column register-box is-narrow-tablet">
-          <div class="content is-medium">
-            <h1>Register</h1>
-          </div>
-          <div class="field">
-            <p class="control has-icons-left">
-              <input v-model="email" class="input" type="email" placeholder="Email" />
-              <span class="icon is-small is-left">
-                <i class="fa fa-envelope"></i>
-              </span>
-            </p>
-          </div>
-          <br/>
-          <div class="field">
-            <p class="control has-icons-left">
-              <input v-model="password" class="input" type="password" placeholder="Password"/>
-              <span class="icon is-small is-left">
-                <i class="fa fa-lock"></i>
-              </span>
-            </p>
-          </div>
-          <br/>
-          <div class="columns is-centered is-mobile">
-            <a @click="register" class="button is-light is-pulled-right">Register</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</template>;
+  <v-app id="inspire">
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <v-flex xs12 sm8 md4>
+            <v-card class="elevation-12">
+              <v-toolbar dark color="blue-grey darken-1">
+                <v-toolbar-title>Register</v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    v-model="email"
+                    prepend-icon="person"
+                    name="email"
+                    type="Email"
+                    label="Email">
+                  </v-text-field>
+                  <v-text-field
+                    v-model="password"
+                    id="password"
+                    prepend-icon="lock"
+                    name="password"
+                    type="password"
+                    label="Password">
+                  </v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn @click="register" class="lime lighten-1">Submit</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
+</template>
 
 <script>
 import AuthService from '@/services/AuthService';
@@ -46,11 +53,10 @@ export default {
   methods: {
     async register() {
       try {
-        const response = await AuthService.register({
+        await AuthService.register({
           email: this.email,
           password: this.password
         });
-        console.log(response);
         this.$router.push({ path: '/login' });
       } catch (error) {
         this.error = error;
@@ -62,54 +68,8 @@ export default {
 </script>
 
 <style scoped>
-.columns {
-  width: 100%;
-}
-
-.register-box {
-  border-radius: 15px;
-  background-color:#003333;
-  max-width: 480px;
+.login-box {
   margin: auto;
   margin-top: 9rem;
-  padding-bottom: 2rem;
-}
-
-.content {
-  width: 480px;
-}
-
-.center {
-  padding-bottom: 3rem;
-  margin-bottom: 5rem;
-}
-
-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.content h1 {
-  color: white;
-}
-
-img {
-  display: inline;
-}
-
-.button {
-  opacity: 0.6;
-  transition: opacity .55s ease-in-out;
-  -moz-transition: opacity .55s ease-in-out;
-  -webkit-transition: opacity .55s ease-in-out;
-}
-
-.button:hover {
-  background-color: orange;
-  opacity: 1.0;
-  transition: opacity .55s ease-in-out;
-  -moz-transition: opacity .55s ease-in-out;
-  -webkit-transition: opacity .55s ease-in-out;
 }
 </style>

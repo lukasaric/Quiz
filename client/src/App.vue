@@ -1,19 +1,22 @@
 <template>
-  <section class="hero is-fullheight has-background-white-ter">
-    <page-header/>
-    <router-view/>
-    <page-footer/>
-  </section>
+  <div id="app">
+    <v-app>
+      <page-header />
+      <main>
+        <v-container fluid>
+          <router-view></router-view>
+        </v-container>
+      </main>
+    </v-app>
+  </div>
 </template>
 
 <script>
 import PageHeader from './components/Header';
-import PageFooter from './components/Footer';
 export default {
   name: 'app',
   components: {
-    PageHeader,
-    PageFooter
+    PageHeader
   }
 };
 </script>
@@ -25,5 +28,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.danger-alert {
+  color: red;
 }
 </style>

@@ -1,41 +1,47 @@
 <template>
-  <section>
-    <div class="hero-body">
-      <div class="columns is-centered">
-        <div class="column login-box">
-          <div class="content is-medium">
-            <h1>Log In</h1>
-          </div>
-          <div class="field">
-            <p class="control has-icons-left">
-              <input v-model="email" class="input" type="email" placeholder="Email" />
-              <span class="icon is-small is-left">
-                <i class="fa fa-envelope"></i>
-              </span>
-            </p>
-          </div>
-          <br/>
-          <div class="field">
-            <p class="control has-icons-left">
-              <input v-model="password" class="input" type="password" placeholder="Password"/>
-              <span class="icon is-small is-left">
-                <i class="fa fa-lock"></i>
-              </span>
-            </p>
-          </div>
-          <br/>
-          <div class="columns is-centered is-mobile">
-            <router-link to="/register">
-              <a class="button is-light is-pulled-right" style="margin-right: 5px">Register</a>
-            </router-link>
-            <a @click="login" class="button is-light is-pulled-right" >Log In</a>
-          </div>
-          <a href="/auth/google" target="_blank" class="button has-text-white is-text is-small is-centered">Log In with Google</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</template>;
+  <v-app id="inspire">
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <v-flex xs12 sm8 md4>
+            <v-card class="elevation-12">
+              <v-toolbar dark color="blue-grey darken-1">
+                <v-toolbar-title>Login</v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    v-model="email"
+                    prepend-icon="person"
+                    name="email"
+                    type="Email"
+                    label="Email">
+                  </v-text-field>
+                  <v-text-field
+                    v-model="password"
+                    id="password"
+                    prepend-icon="lock"
+                    name="password"
+                    type="password"
+                    label="Password">
+                  </v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <a href="/auth/google" target="_blank">
+                  <i class="fa fa-google-plus"></i>
+                </a>
+                <v-spacer></v-spacer>
+                <v-btn @click="login" class="lime lighten-1">Login</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
+</template>
 
 <script>
 export default {
@@ -51,11 +57,6 @@ export default {
       const credentials = { email: this.email, password: this.password };
       this.$store.dispatch('login', credentials)
         .then(() => {
-          this.$toast.open({
-            message: 'Successfully logged in',
-            type: 'is-success',
-            position: 'is-bottom-right'
-          });
           this.$router.push({ path: '/topics' });
         });
     }
@@ -64,49 +65,9 @@ export default {
 </script>
 
 <style scoped>
-.columns {
-  width: 100%;
-}
-
-.login-box {
-  border-radius: 15px;
-  background-color:#003333;
-  max-width: 480px;
-  margin: auto;
-  margin-top: 9rem;
-}
-
-.center {
-  padding-bottom: 3rem;
-  margin-bottom: 5rem;
-}
-
-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.content h1 {
-  color: white;
-}
-
-img {
-  display: inline;
-}
-
-.button {
-  opacity: 0.6;
-  transition: opacity .55s ease-in-out;
-  -moz-transition: opacity .55s ease-in-out;
-  -webkit-transition: opacity .55s ease-in-out;
-}
-
-.button:hover {
-  background-color: orange;
-  opacity: 1.0;
-  transition: opacity .55s ease-in-out;
-  -moz-transition: opacity .55s ease-in-out;
-  -webkit-transition: opacity .55s ease-in-out;
+.fa-google-plus {
+  color: #d34836;
+  margin-left: 10px;
+  font-size: 2rem;
 }
 </style>

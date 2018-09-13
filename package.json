@@ -36,7 +36,6 @@
     "bcrypt": "^3.0.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
-    "buefy": "^0.6.6",
     "bulma": "^0.7.1",
     "cookie-session": "^2.0.0-beta.3",
     "dotenv": "^6.0.0",
@@ -59,6 +58,7 @@
     "unique-random": "^2.0.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vuetify": "^1.2.2",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
   },

@@ -3,16 +3,14 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import Buefy from 'buefy';
 import { sync } from 'vuex-router-sync';
 import store from '@/store/store';
-import 'buefy/lib/buefy.css';
+import Vuetify from 'vuetify';
 import 'font-awesome/css/font-awesome.css';
 import 'material-icons/iconfont/material-icons.css';
+import 'vuetify/dist/vuetify.min.css';
 
-Vue.use(Buefy, {
-  defaultIconPack: 'mdi'
-});
+Vue.use(Vuetify);
 
 Vue.config.productionTip = false;
 
@@ -24,5 +22,5 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App, Buefy }
+  components: { App, Vuetify }
 });
