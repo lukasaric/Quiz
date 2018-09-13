@@ -1,23 +1,20 @@
 <template>
-  <section class="section">
-    <p class="title center">Pick your topic!</p>
-    <br>
-    <div class="container">
-      <div class="columns is-multiline">
-        <div v-for="(topic, i) in topics" :key="i" class="column is-half">
-          <article class="media notification " style="background-color: #003333">
-            <div class="media-content center">
-              <div class="content">
-                <div @click="setTopicId(topic.id)" class="button is-large">
-                  {{ topic.name }}
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </div>
-  </section>
+  <v-container grid-list-xl text-xs-center>
+    <v-layout row wrap>
+      <v-flex
+        v-for="(topic, i) in topics"
+        :key="i"
+        @click="setTopicId(topic.id)"
+        class="card"
+        xs2
+        sm5
+        md3>
+        <v-card dark color="blue-grey darken-3">
+          <v-card-text>{{ topic.name }}</v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -57,35 +54,7 @@ export default {
 </script>
 
 <style scoped>
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.card:hover {
+  cursor: pointer;
 }
-.button {
-  background-color: #003333;
-  font-weight: bold;
-  color: white;
-  opacity: 0.6;
-  transition: opacity .55s ease-in-out;
-  -moz-transition: opacity .55s ease-in-out;
-  -webkit-transition: opacity .55s ease-in-out;
-}
-
-.button:hover {
-  background-color: orange;
-  opacity: 1.0;
-  transition: opacity .55s ease-in-out;
-  -moz-transition: opacity .55s ease-in-out;
-  -webkit-transition: opacity .55s ease-in-out;
-}
-
-.title {
-  margin-top: 2rem;
-  color: #003333;
-  padding: 1rem;
-  font-size: 3rem;
-  font-style: italic;
-}
-
 </style>

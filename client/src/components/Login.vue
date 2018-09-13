@@ -33,7 +33,7 @@
                   <i class="fa fa-google-plus"></i>
                 </a>
                 <v-spacer></v-spacer>
-                <v-btn @click="login" class="lime lighten-1">Login</v-btn>
+                <v-btn @click="login" class="orange accent-3">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>

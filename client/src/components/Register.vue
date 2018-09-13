@@ -30,7 +30,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="register" class="lime lighten-1">Submit</v-btn>
+                <v-btn @click="register" class="orange accent-3">Submit</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
