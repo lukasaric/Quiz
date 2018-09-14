@@ -16,34 +16,29 @@ const router = new Router({
       path: '/',
       name: 'Home',
       component: Home
-    },
-    {
+    }, {
       path: '/login',
       name: 'login',
       component: Login
-    },
-    {
+    }, {
       path: '/register',
       name: 'register',
       component: Register
-    },
-    {
+    }, {
       path: '/topics',
       name: 'topics',
       component: Topics,
       meta: {
         requiresAuth: true
       }
-    },
-    {
+    }, {
       path: '/profile',
       name: 'profile',
       component: Profile,
       meta: {
         requiresAuth: true
       }
-    },
-    {
+    }, {
       path: '/test',
       name: 'test',
       component: Test,
@@ -58,13 +53,9 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const currentUser = store.state.user;
 
-  if (requiresAuth && !currentUser) {
-    next('/login');
-  } else if ((to.path === '/login' || to.path === '/register') && currentUser) {
-    next('/');
-  } else {
-    next();
-  }
+  if (requiresAuth && !currentUser) return next('login');
+  if ((to.path === '/login' || to.path === '/register') && currentUser) return next('/');
+  return next();
 });
 
 export default router;

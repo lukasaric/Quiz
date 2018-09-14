@@ -11,16 +11,7 @@
           <v-divider class="my-3"></v-divider>
           <div class="title mb-3">Test your knowledge!</div>
           <v-btn
-            v-if="!loggedIn"
-            @click="navigateTo('/login')"
-            class="mx-0"
-            color="orange accent-3"
-            large>
-            Start
-          </v-btn>
-          <v-btn
-            v-if="loggedIn"
-            @click="navigateTo('/topics')"
+            @click="navigateTo()"
             class="mx-0"
             color="orange accent-3"
             large>
@@ -33,14 +24,12 @@
 </template>
 
 <script>
-
 export default {
   methods: {
-    loggedIn() {
-      return this.$store.getters.isAuthenticated;
-    },
-    navigateTo(route) {
-      this.$router.push(route);
+    navigateTo() {
+      const isLogged = this.$store.getters.isAuthenticated;
+      if (!isLogged) this.$router.push({ name: 'login' });
+      else this.$router.push({ name: 'topics' });
     }
   }
 };

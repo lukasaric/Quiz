@@ -90,5 +90,6 @@ export default {
 }
 .navbar-brand .navbar-item img {
   max-height: 60px;
+  margin-top:8px;
 }
 </style>

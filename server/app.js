@@ -25,6 +25,7 @@ app.use('/topic', authenticate, createTest);
 
 function handleError(err, req, res, next) {
   let message = '';
+  if (err.status === 500) res.status(500);
   if (err.name === 'AuthenticationError') message = 'User already exists.';
   if (err.name === 'SequelizeValidationError') message = 'Invalid input form.';
   res.status(401).send({ message });
