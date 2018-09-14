@@ -11,8 +11,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then(user => done(null, user));
+  User.findById(id).then(user => done(null, user));
 });
 
 passport.use(new JwtStrategy({
@@ -34,9 +33,7 @@ passport.use('register', new LocalStrategy({
       if (user) return done(null, false);
       User.create({ email, password })
         .then(user => done(null, user))
-        .catch({ name: 'SequelizeValidationError' }, err => {
-          done(err, false);
-        })
+        .catch({ name: 'SequelizeValidationError' }, err => done(err, false))
         .catch(err => done(err));
     });
 }));
@@ -47,9 +44,7 @@ passport.use('login', new LocalStrategy({
   const where = { email: username };
   User.findOne({ where })
     .then(async user => {
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
+      if (!user) return done(null, false, { message: 'Incorrect username.' });
       const isValidPassword = await user.comparePassword(password);
       if (isValidPassword) return done(null, user);
       done(null, false, { message: 'Incorrect password.' });

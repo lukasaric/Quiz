@@ -24,15 +24,10 @@ app.use('/profile', authenticate, profileStats);
 app.use('/topic', authenticate, createTest);
 
 function handleError(err, req, res, next) {
-  if (err.name === 'AuthenticationError') {
-    res.status(401).send({
-      message: 'User already exists.'
-    });
-  } else if (err.name === 'SequelizeValidationError') {
-    res.status(401).send({
-      message: 'Invalid input form.'
-    });
-  }
+  let message = '';
+  if (err.name === 'AuthenticationError') message = 'User already exists.';
+  if (err.name === 'SequelizeValidationError') message = 'Invalid input form.';
+  res.status(401).send({ message });
 }
 
 sequelize.sync()

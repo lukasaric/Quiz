@@ -1,9 +1,11 @@
 <template>
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a @click="navigateTo('/')" class="navbar-item">
-        <img src="../assets/devRhcrop.png" alt="devRhapsody"/>
-      </a>
+      <router-link to="/">
+        <a class="navbar-item">
+          <img src="../assets/devRhcrop.png" alt="devRhapsody"/>
+        </a>
+      </router-link>
     </div>
     <div id="navMenu" class="navbar-menu is-active">
       <div class="navbar-end is-pulled-right">
@@ -82,10 +84,6 @@ export default {
     }
   },
   methods: {
-    navigateTo(route) {
-      this.$router.push(route);
-    },
-
     logout() {
       this.$store.dispatch('logout').then(() => {
         this.$toast.open('Successfully logged out.');

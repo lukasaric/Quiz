@@ -14,10 +14,14 @@
             Test your knowledge!
           </p> <br>
           <div v-if="!loggedIn">
-            <a @click="navigateTo('/login')" class="button center is-rounded is-medium">Start </a>
+            <router-link to="/login">
+              <a class="button center is-rounded is-medium">Start </a>
+            </router-link>
           </div>
-          <div v-else-if="loggedIn">
-            <a @click="navigateTo('/topics')" class="button center is-rounded is-medium">Start </a>
+          <div v-else>
+            <router-link to="/topics">
+              <a class="button center is-rounded is-medium">Start </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -31,9 +35,6 @@ export default {
   methods: {
     loggedIn() {
       return this.$store.getters.isAuthenticated;
-    },
-    navigateTo(route) {
-      this.$router.push(route);
     }
   }
 };
