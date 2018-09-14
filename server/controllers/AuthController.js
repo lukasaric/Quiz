@@ -14,10 +14,7 @@ function createToken(user, expiresIn = '2d') {
 function loadMustache(path) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+      if (err) return reject(err);
       resolve(data);
     });
   });
@@ -29,7 +26,7 @@ module.exports = {
       if (err || !user) {
         return res.status(400).json({
           message: info ? info.message : 'Login failed.',
-          user: user
+          user
         });
       }
       req.login(user, { session: false }, (err) => {

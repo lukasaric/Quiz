@@ -44,7 +44,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         AuthService.login(payload)
           .then(response => {
-            const user = response.data.user;
+            const { user } = response.data;
             context.commit('authSuccess', user);
             localStorage.setItem('token', user.token);
             localStorage.setItem('user', JSON.stringify(user));
