@@ -4,13 +4,34 @@
       <v-flex
         v-for="(topic, i) in topics"
         :key="i"
-        @click="setTopicId(topic.id)"
         class="card"
         xs2
         sm5
         md3>
-        <v-card dark color="blue-grey darken-3">
-          <v-card-text>{{ topic.name }}</v-card-text>
+        <v-card>
+          <v-img
+            :src="topic.imgSrc"
+            height="300px"
+            max-width="420px">
+          </v-img>
+
+          <v-card-title primary-title>
+            <div>
+              <div class="headline">{{ topic.name }}</div>
+            </div>
+          </v-card-title>
+
+          <v-card-actions>
+            <v-btn
+              @click="setTopicId(topic.id)"
+              flat
+              color="orange accent-3"
+              large >
+              Start
+            </v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+
         </v-card>
       </v-flex>
     </v-layout>
@@ -21,18 +42,22 @@
 const topics = [{
   route: '/test',
   name: 'SQL',
+  imgSrc: 'https://cdn.macworld.co.uk/cmsdata/features/3638150/setup_learn_sql_mac_thumb800.jpg',
   id: 3
 }, {
   route: '/test',
   name: 'GIT',
+  imgSrc: 'https://student-engineer.net/wp-content/uploads/2018/05/icon_git.png',
   id: 1
 }, {
   route: '/test',
   name: 'WEB',
+  imgSrc: 'http://www.educoporti.es/wp-content/uploads/2013/10/wwwonline.jpg',
   id: 4
 }, {
   route: '/test',
-  name: 'JS',
+  name: 'JavaScript',
+  imgSrc: 'https://miro.medium.com/max/1108/1*H-25KB7EbSHjv70HXrdl6w.png',
   id: 2
 }];
 

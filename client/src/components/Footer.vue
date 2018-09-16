@@ -1,7 +1,7 @@
 <template>
   <v-footer
     height="auto"
-    fixed
+    absolute
     dark>
     <v-layout
       justify-center
