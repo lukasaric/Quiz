@@ -3,6 +3,7 @@
     <v-app>
       <page-header />
       <main>
+        <img src="./assets/global_bg.jpg" class="global_img">
         <v-container fluid>
           <router-view></router-view>
         </v-container>
@@ -34,5 +35,11 @@ export default {
 }
 .danger-alert {
   color: red;
+}
+.global_img {
+  display: block;
+  width: 100%;
+  opacity: 1;
+  position: absolute;
 }
 </style>

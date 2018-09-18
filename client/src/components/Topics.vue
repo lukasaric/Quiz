@@ -1,5 +1,7 @@
 <template>
   <v-container grid-list-xl text-xs-center>
+    <h3 class="display-3">Choose your topic</h3>
+    <v-divider class="my-3"></v-divider>
     <v-layout row wrap>
       <v-flex
         v-for="(topic, i) in topics"
@@ -8,31 +10,36 @@
         xs2
         sm5
         md3>
-        <v-card>
-          <v-img
-            :src="topic.imgSrc"
-            height="300px"
-            max-width="420px">
-          </v-img>
+        <v-hover>
+          <v-card
+            slot-scope="{ hover }"
+            :class="`elevation-${hover ? 12 : 2}`"
+            class="mx-auto">
+            <v-img
+              :src="topic.imgSrc"
+              height="300px"
+              contain>
+            </v-img>
 
-          <v-card-title primary-title>
-            <div>
-              <div class="headline">{{ topic.name }}</div>
-            </div>
-          </v-card-title>
+            <v-card-title primary-title>
+              <div>
+                <div class="headline">{{ topic.name }}</div>
+              </div>
+            </v-card-title>
 
-          <v-card-actions>
-            <v-btn
-              @click="setTopicId(topic.id)"
-              flat
-              color="orange accent-3"
-              large >
-              Start
-            </v-btn>
-            <v-spacer></v-spacer>
-          </v-card-actions>
+            <v-card-actions>
+              <v-btn
+                @click="setTopicId(topic.id)"
+                flat
+                color="orange accent-3"
+                large >
+                Start
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
 
-        </v-card>
+          </v-card>
+        </v-hover>
       </v-flex>
     </v-layout>
   </v-container>
@@ -57,7 +64,7 @@ const topics = [{
 }, {
   route: '/test',
   name: 'JavaScript',
-  imgSrc: 'https://miro.medium.com/max/1108/1*H-25KB7EbSHjv70HXrdl6w.png',
+  imgSrc: 'https://static.memrise.com/img/400sqf/from/uploads/course_photos/3146044000171223183557.png',
   id: 2
 }];
 

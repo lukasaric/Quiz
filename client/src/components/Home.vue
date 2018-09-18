@@ -2,20 +2,16 @@
   <v-jumbotron>
     <v-container fill-height>
       <v-layout align-center>
-        <v-flex>
-          <h3 class="display-3">
-            <figure class="image center">
-              <img src="../assets/devRh.png" style="width: 17rem">
-            </figure>
-          </h3>
-          <v-divider class="my-3"></v-divider>
-          <div class="title mb-3">Test your knowledge!</div>
+        <v-flex class="logo-btn">
+          <figure class="image center">
+            <img src="../assets/devRh.png" style="width: 17rem">
+          </figure>
           <v-btn
             @click="navigateTo()"
             class="mx-0"
             color="orange accent-3"
             large>
-            Start
+            Get started
           </v-btn>
         </v-flex>
       </v-layout>
@@ -36,4 +32,7 @@ export default {
 </script>
 
 <style scoped>
+.logo-btn {
+  margin-bottom: 120px;
+}
 </style>
