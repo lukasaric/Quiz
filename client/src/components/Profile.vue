@@ -1,20 +1,25 @@
 <template>
-  <div class="hero-body">
-    <div class="column is-one-quarter select is-multiple">
-      <select multiple size="25">
-        <option v-for="item in list" :key="item">
-          Score: {{ item.finalScore }},
-          Topic: {{ item.category }}
-        </option>
-      </select>
+  <v-card
+    class="mx-auto"
+    color="blue-grey lighten-5">
+    <v-data-table
+      :items="list"
+      hide-actions
+      class="elevation-1">
+      <template slot="items" slot-scope="props">
+        <td class="text-xs-right">Score: {{ props.item.finalScore }}</td>
+        <td class="text-xs-right">Topic: {{ props.item.category }}</td>
+      </template>
+    </v-data-table>
+    <div class="hero-body">
+      <div class="column is-three-quarters" style="margin-top=-20rem;">
+        <h1>My favourite topics</h1>
+        <div ref="chart" class="chart"></div>
+        <h1>My success in each topic</h1>
+        <div ref="secondChart" class="chart"></div>
+      </div>
     </div>
-    <div class="column is-three-quarters" style="margin-top=-20rem;">
-      <h1>My favourite topics</h1>
-      <div ref="chart" class="chart"></div>
-      <h1>My success in each topic</h1>
-      <div ref="secondChart" class="chart"></div>
-    </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -39,7 +44,6 @@ export default {
     Api.get('/profile')
       .then(data => {
         this.list = data.data;
-        console.log(this.list);
         this.list.forEach(test => {
           switch (test.topic_fk) {
             case 1:
@@ -108,13 +112,8 @@ export default {
 <style scoped>
 .chart {
   width: 100%;
-  height: 500px;
-}
-
-.select select[multiple] {
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-top: 1rem;
+  height: 400px;
+  justify-content: center;
 }
 
 .column {
@@ -124,6 +123,7 @@ export default {
 }
 
 .column h1 {
+  margin-top: 50px;
   font-size: 25px;
   display: flex;
   justify-content: center;

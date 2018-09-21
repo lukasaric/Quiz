@@ -6,6 +6,7 @@
       <v-flex
         v-for="(topic, i) in topics"
         :key="i"
+        @click="setTopicId(topic.id)"
         class="card"
         xs2
         sm5

@@ -38,8 +38,9 @@ export default {
 }
 .global_img {
   display: block;
+  height: 100%;
   width: 100%;
   opacity: 1;
-  position: absolute;
+  position:fixed;
 }
 </style>

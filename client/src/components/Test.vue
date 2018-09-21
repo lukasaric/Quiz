@@ -21,7 +21,8 @@
           class="mb-5"
           color="blue-grey lighten-5"
           height="200px">
-          <h2 id="subtitle">{{ question.text }}</h2>
+          <h2 id="subtitle">
+            {{ question.text }}</h2>
         </v-card>
         <div
           v-for="(answer, j) in question.answers"
