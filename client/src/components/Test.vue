@@ -21,8 +21,10 @@
           class="mb-5"
           color="blue-grey lighten-5"
           height="200px">
-          <h2 id="subtitle">
-            {{ question.text }}</h2>
+          <h2
+            v-html="displayQuestion(question.text)"
+            id="subtitle">
+          </h2>
         </v-card>
         <div
           v-for="(answer, j) in question.answers"
@@ -31,6 +33,7 @@
             :label="answer.text"
             :value="answer.id"
             v-model="checkedAnswers"
+            @click="sendIndex(answer)"
             color="orange darken-3">
           </v-checkbox>
         </div>
@@ -40,13 +43,41 @@
           color="orange accent-3">
           Continue
         </v-btn>
-        <v-btn flat>Cancel</v-btn>
         <v-btn
           v-if="steps[index] === 5"
           @click="submit"
           color="green accent-3">
           Submit
         </v-btn>
+        <v-btn
+          @click="dialog = true"
+          flat>
+          Cancel
+        </v-btn>
+        <v-dialog
+          v-model="dialog"
+          max-width="290">
+          <v-card>
+            <v-card-text>
+              Are you sure you want to quit exam?
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                @click="dialog = false"
+                color="orange darken-3"
+                flat>
+                No
+              </v-btn>
+              <v-btn
+                @click="navigateTo('topics')"
+                color="orange darken-3"
+                flat>
+                Yes
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -59,6 +90,7 @@ export default {
   name: 'test',
   data() {
     return {
+      dialog: false,
       steps: [1, 2, 3, 4, 5],
       quiz,
       questionIndex: 0,
@@ -70,6 +102,14 @@ export default {
     };
   },
   methods: {
+    displayQuestion(question) {
+      const str = '???';
+      question = question.replace(str, '<v-chip> ____ </v-chip>');
+      return question;
+    },
+    navigateTo(route) {
+      this.$router.push({ name: route });
+    },
     next() {
       this.steps[this.questionIndex] = this.index;
       this.questionIndex++;
@@ -81,13 +121,14 @@ export default {
       document.getElementById('columnId').style.display = 'none';
       document.getElementById('result').style.display = 'block';
       const uri = '/topic/submit';
-      Api.post(uri, this.arrayToSend).then(response => {
-        response.data.forEach(element => {
-          response1 += String(element.result) + '<br>';
-          response2 += element.result;
+      Api.post(uri, this.arrayToSend)
+        .then(response => {
+          response.data.forEach(element => {
+            response1 += String(element.result) + '<br>';
+            response2 += element.result;
+          });
+          document.getElementById('result').innerHTML = response1 + '<br>' + 'Final result: ' + (response2 * 20) + '%';
         });
-        document.getElementById('result').innerHTML = response1 + '<br>' + 'Final result: ' + (response2 * 20) + '%';
-      });
     },
     sendIndex(answ) {
       this.arrayToSend[this.questionIndex].answers.push({ answerId: answ.id, index: this.index });
@@ -107,4 +148,7 @@ export default {
 };
 </script>
 <style scoped>
+h2 {
+  font-weight: normal;
+}
 </style>

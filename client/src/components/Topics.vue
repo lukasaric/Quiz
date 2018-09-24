@@ -1,7 +1,5 @@
 <template>
   <v-container grid-list-xl text-xs-center>
-    <h3 class="display-3">Choose your topic</h3>
-    <v-divider class="my-3"></v-divider>
     <v-layout row wrap>
       <v-flex
         v-for="(topic, i) in topics"

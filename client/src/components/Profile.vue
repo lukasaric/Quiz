@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="mx-auto"
+    class="card mx-auto"
     color="blue-grey lighten-5">
     <v-data-table
       :items="list"
@@ -110,6 +110,9 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  width: 80%;
+}
 .chart {
   width: 100%;
   height: 400px;
