@@ -1,12 +1,6 @@
 <template>
-  <v-footer
-    height="auto"
-    absolute
-    dark>
-    <v-layout
-      justify-center
-      row
-      wrap>
+  <v-footer height="auto" absolute dark>
+    <v-layout justify-center row wrap>
       <v-flex
         blue-grey
         darken-3

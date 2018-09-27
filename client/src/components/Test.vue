@@ -1,50 +1,42 @@
 <template>
-  <v-stepper non-linear>
+  <v-stepper v-model="step" non-linear>
     <v-stepper-header>
-      <div
-        v-for="(step, index) in steps"
-        :key="index">
+      <template v-for="n in steps">
         <v-stepper-step
-          :step="steps[index]"
+          :complete="step > n"
+          :key="`${n}-step`"
+          :step="n"
           editable
           color="orange accent-3">
-          Question {{ steps[index] }}
+          Question {{ n }}
         </v-stepper-step>
-      </div>
+        <v-divider v-if="n !== steps" :key="n"></v-divider>
+      </template>
     </v-stepper-header>
 
-    <v-stepper-items
-      v-for="(question, index) in quiz"
-      :key="index">
-      <v-stepper-content :step="steps[index]">
-        <v-card
-          class="mb-5"
-          color="blue-grey lighten-5"
-          height="200px">
-          <h2
-            v-html="displayQuestion(question.text)"
-            id="subtitle">
-          </h2>
+    <v-stepper-items v-for="(question, index) in quiz" :key="index">
+      <v-stepper-content :step="stepArray[index]">
+        <v-card class="mb-5" color="blue-grey lighten-5" height="200px">
+          <h2 v-html="displayQuestion(question.text)" id="subtitle"></h2>
         </v-card>
         <div
           v-for="(answer, j) in question.answers"
           :key="j">
           <v-checkbox
             :label="answer.text"
-            :value="answer.id"
+            :value="answer"
             v-model="checkedAnswers"
-            @click="sendIndex(answer)"
             color="orange darken-3">
           </v-checkbox>
         </div>
         <v-btn
-          v-if="steps[index] !== 5"
-          @click="next"
+          v-if="stepArray[index] !== 5"
+          @click="next(index)"
           color="orange accent-3">
           Continue
         </v-btn>
         <v-btn
-          v-if="steps[index] === 5"
+          v-if="stepArray[index] === 5"
           @click="submit"
           color="green accent-3">
           Submit
@@ -54,13 +46,9 @@
           flat>
           Cancel
         </v-btn>
-        <v-dialog
-          v-model="dialog"
-          max-width="290">
+        <v-dialog v-model="dialog" max-width="290">
           <v-card>
-            <v-card-text>
-              Are you sure you want to quit exam?
-            </v-card-text>
+            <v-card-text>Are you sure you want to quit exam?</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -91,29 +79,44 @@ export default {
   data() {
     return {
       dialog: false,
-      steps: [1, 2, 3, 4, 5],
+      step: 1,
+      steps: 5,
+      stepArray: [1, 2, 3, 4, 5],
       quiz,
       questionIndex: 0,
       questionStage: false,
       checkedAnswers: [],
-      checkedAnswer: '',
-      arrayToSend: [],
-      index: 0
+      arrayToSend: []
     };
   },
   methods: {
     displayQuestion(question) {
       const str = '???';
-      question = question.replace(str, '<v-chip> ____ </v-chip>');
+      for (let i = 0; i < question.length; i++) {
+        question = question.replace(str, `<v-chip> ___ </v-chip>`);
+      }
       return question;
     },
     navigateTo(route) {
+      this.arrayToSend = [];
       this.$router.push({ name: route });
     },
-    next() {
-      this.steps[this.questionIndex] = this.index;
-      this.questionIndex++;
-      this.index = 0;
+    next(index) {
+      for (let i = 0; i < this.checkedAnswers.length; i++) {
+        this.arrayToSend[index].answers
+          .push({ answText: this.checkedAnswers[i].text, answerId: this.checkedAnswers[i].id });
+      }
+      console.log(this.checkedAnswers);
+      this.checkedAnswers = [];
+      index++;
+      if (index === this.steps) {
+        this.step = index;
+      } else {
+        this.step = index + 1;
+      }
+      console.log(this.arrayToSend);
+      console.log(index);
+      console.log(this.step);
     },
     submit() {
       let response1 = 'Results: <br>';
@@ -129,16 +132,11 @@ export default {
           });
           document.getElementById('result').innerHTML = response1 + '<br>' + 'Final result: ' + (response2 * 20) + '%';
         });
-    },
-    sendIndex(answ) {
-      this.arrayToSend[this.questionIndex].answers.push({ answerId: answ.id, index: this.index });
-      this.index++;
     }
   },
   created() {
     Api.get(`topic/${this.$store.state.topicId}`)
       .then(res => {
-        console.log(res.data);
         this.quiz = res.data;
         this.quiz.forEach((element, i) => {
           this.arrayToSend.push({ questId: element.id, answers: [] });
