@@ -10,22 +10,14 @@
         sm5
         md3>
         <v-hover>
-          <v-card
-            slot-scope="{ hover }"
-            :class="`elevation-${hover ? 12 : 2}`"
-            class="mx-auto">
-            <v-img
-              :src="topic.imgSrc"
-              height="300px"
-              contain>
+          <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="mx-auto">
+            <v-img :src="topic.imgSrc" height="300px" contain>
             </v-img>
-
             <v-card-title primary-title>
               <div>
                 <div class="headline">{{ topic.name }}</div>
               </div>
             </v-card-title>
-
             <v-card-actions>
               <v-btn
                 @click="setTopicId(topic.id)"
@@ -36,7 +28,6 @@
               </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
-
           </v-card>
         </v-hover>
       </v-flex>

@@ -13,7 +13,6 @@
         <v-divider v-if="n !== steps" :key="n"></v-divider>
       </template>
     </v-stepper-header>
-
     <v-stepper-items v-for="(question, index) in quiz" :key="index">
       <v-stepper-content :step="stepArray[index]">
         <v-card class="mb-5" color="blue-grey lighten-5" height="200px">

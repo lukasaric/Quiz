@@ -1,43 +1,41 @@
 <template>
-  <v-app id="inspire">
-    <v-content>
-      <v-container fluid>
-        <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="blue-grey darken-1">
-                <v-toolbar-title>Register</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-text-field
-                    v-model="email"
-                    prepend-icon="person"
-                    name="email"
-                    type="Email"
-                    label="Email">
-                  </v-text-field>
-                  <v-text-field
-                    v-model="password"
-                    id="password"
-                    prepend-icon="lock"
-                    name="password"
-                    type="password"
-                    label="Password">
-                  </v-text-field>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn @click="register" class="orange accent-3">Submit</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
-  </v-app>
+  <v-content>
+    <v-container fluid>
+      <v-layout align-center justify-center>
+        <v-flex class="register-container" xs12 sm8 md4>
+          <v-card class="elevation-12">
+            <v-toolbar dark color="blue-grey darken-1">
+              <v-toolbar-title>Sign up</v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+            <v-card-text>
+              <v-form>
+                <v-text-field
+                  v-model="email"
+                  prepend-icon="person"
+                  name="email"
+                  type="Email"
+                  label="Email"
+                  color ="orange accent-3">
+                </v-text-field>
+                <v-text-field
+                  v-model="password"
+                  id="password"
+                  prepend-icon="lock"
+                  name="password"
+                  type="password"
+                  label="Password"
+                  color ="orange accent-3">
+                </v-text-field>
+              </v-form>
+            </v-card-text>
+            <v-spacer></v-spacer>
+            <v-btn @click="register" bottom class="orange accent-3">Submit</v-btn>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -68,8 +66,11 @@ export default {
 </script>
 
 <style scoped>
-.login-box {
-  margin: auto;
-  margin-top: 9rem;
+.register-container {
+  margin: 70px;
+}
+.v-btn {
+  width: 80%;
+  font-weight: bold;
 }
 </style>

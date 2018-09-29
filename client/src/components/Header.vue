@@ -23,7 +23,7 @@
       </v-btn>
       <v-menu v-if="loggedIn" bottom left transition="scale-transition">
         <v-btn slot="activator" icon>
-          <v-icon>more_vert</v-icon>
+          <v-icon>list</v-icon>
         </v-btn>
         <v-list>
           <v-list-tile

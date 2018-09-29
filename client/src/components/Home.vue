@@ -35,4 +35,8 @@ export default {
 .logo-btn {
   margin-bottom: 120px;
 }
+.v-btn {
+  font-weight: bold;
+  color: black;
+}
 </style>
