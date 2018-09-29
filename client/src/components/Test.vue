@@ -73,6 +73,7 @@
 
 <script>
 import Api from '@/services/Api';
+import TestService from '@/services/TestService';
 let quiz;
 export default {
   name: 'test',
@@ -86,7 +87,8 @@ export default {
       questionIndex: 0,
       questionStage: false,
       checkedAnswers: [],
-      arrayToSend: []
+      arrayToSend: [],
+      answerIndex: 0
     };
   },
   methods: {
@@ -103,28 +105,28 @@ export default {
     },
     next(index) {
       for (let i = 0; i < this.checkedAnswers.length; i++) {
+        this.answerIndex = i;
         this.arrayToSend[index].answers
-          .push({ answText: this.checkedAnswers[i].text, answerId: this.checkedAnswers[i].id });
+          .push({ answText: this.checkedAnswers[i].text, answerId: this.checkedAnswers[i].id, index: this.answerIndex });
       }
-      console.log(this.checkedAnswers);
       this.checkedAnswers = [];
+      TestService.continue(this.arrayToSend)
+        .then(response => {
+
+        });
       index++;
       if (index === this.steps) {
         this.step = index;
       } else {
         this.step = index + 1;
       }
-      console.log(this.arrayToSend);
-      console.log(index);
-      console.log(this.step);
     },
     submit() {
       let response1 = 'Results: <br>';
       let response2 = 0;
       document.getElementById('columnId').style.display = 'none';
       document.getElementById('result').style.display = 'block';
-      const uri = '/topic/submit';
-      Api.post(uri, this.arrayToSend)
+      TestService.submit(this.arrayToSend)
         .then(response => {
           response.data.forEach(element => {
             response1 += String(element.result) + '<br>';
