@@ -10,7 +10,16 @@ const Promise = require('bluebird');
 const createArray = (length, callback) => Array.from({ length }, callback);
 
 exports.createTest = async function (req, res) {
-  return createTest(req.params.id).then(test => res.send(test));
+  const exam = await Test.create({
+    topic_fk: req.params.id,
+    user_fk: req.user.id
+  });
+  return createTest(req.params.id)
+    .then(test => {
+      // test = Object.assign({}, test, { examId: exam.id });
+      console.log(exam);
+      res.send(test);
+    });
 };
 
 exports.submitTest = async function (req, res) {
@@ -47,19 +56,19 @@ function calculateResult(data, id) {
   });
 }
 
-function saveResult(questions, id) {
+function saveResult(questions, userId, examId) {
   let finalScore = 0;
+  console.log(questions);
   questions.forEach(question => {
     finalScore += question.result * 20;
   });
   const where = { id: questions[0].questId };
   Question.findOne({ where })
     .then(question => {
-      Test.create({
+      Test.update({
         topic_fk: question.topic_fk,
-        user_fk: id,
         finalScore: finalScore
-      });
+      }, { where: { user_fk: userId, id: examId } });
     });
 }
 

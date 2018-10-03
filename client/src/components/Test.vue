@@ -72,7 +72,7 @@
 
 <script>
 import Api from '@/services/Api';
-import TestService from '@/services/TestService';
+import ExamService from '@/services/ExamService';
 let quiz;
 export default {
   name: 'test',
@@ -109,7 +109,7 @@ export default {
           .push({ answText: this.checkedAnswers[i].text, answerId: this.checkedAnswers[i].id, index: this.answerIndex });
       }
       this.checkedAnswers = [];
-      TestService.continue(this.arrayToSend)
+      ExamService.continue(this.arrayToSend)
         .then(response => {
 
         });
@@ -125,7 +125,7 @@ export default {
       let response2 = 0;
       document.getElementById('columnId').style.display = 'none';
       document.getElementById('result').style.display = 'block';
-      TestService.submit(this.arrayToSend)
+      ExamService.submit(this.arrayToSend)
         .then(response => {
           response.data.forEach(element => {
             response1 += String(element.result) + '<br>';

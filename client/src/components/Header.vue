@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar fixed class="blue-grey darken-3" dark>
+  <v-toolbar fixed class="navbar" dark>
     <v-toolbar-title class="mr-4">
       <div class="navbar-brand">
         <a @click="navigateTo('/')" class="navbar-item">
@@ -21,11 +21,11 @@
         flat>
         Sign Up
       </v-btn>
-      <v-menu v-if="loggedIn" bottom left transition="scale-transition">
+      <v-menu v-if="loggedIn" bottom left transition="slide-x-transition">
         <v-btn slot="activator" icon>
           <v-icon>list</v-icon>
         </v-btn>
-        <v-list>
+        <v-list light>
           <v-list-tile
             v-for="(item, i) in items"
             :key="i"
@@ -91,5 +91,13 @@ export default {
 .navbar-brand .navbar-item img {
   max-height: 60px;
   margin-top:8px;
+}
+.navbar {
+  background-color: #7ed6df;
+  background-image: linear-gradient(315deg, #006064 0%, #000000 74%);
+}
+.v-icon {
+  padding-right: 10px;
+  color: #FF9100;
 }
 </style>

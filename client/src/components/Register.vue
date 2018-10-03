@@ -4,7 +4,7 @@
       <v-layout align-center justify-center>
         <v-flex class="register-container" xs12 sm8 md4>
           <v-card class="elevation-12">
-            <v-toolbar dark color="blue-grey darken-1">
+            <v-toolbar dark color="cyan darken-4">
               <v-toolbar-title>Sign up</v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -68,9 +68,10 @@ export default {
 <style scoped>
 .register-container {
   margin: 70px;
+  max-width:450px;
 }
 .v-btn {
-  width: 80%;
+  width: 90%;
   font-weight: bold;
 }
 </style>

@@ -25,8 +25,6 @@ export default {
 </script>
 <style>
 #app {
-  background: url('./assets/global_bg.jpg') no-repeat center center fixed;
-  background-size: 100% 100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
