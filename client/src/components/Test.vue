@@ -87,7 +87,8 @@ export default {
       questionStage: false,
       checkedAnswers: [],
       arrayToSend: [],
-      answerIndex: 0
+      answerIndex: 0,
+      examId: 0
     };
   },
   methods: {
@@ -106,10 +107,18 @@ export default {
       for (let i = 0; i < this.checkedAnswers.length; i++) {
         this.answerIndex = i;
         this.arrayToSend[index].answers
-          .push({ answText: this.checkedAnswers[i].text, answerId: this.checkedAnswers[i].id, index: this.answerIndex });
+          .push({
+            answText: this.checkedAnswers[i].text,
+            answerId: this.checkedAnswers[i].id,
+            index: this.answerIndex
+          });
       }
+      const objectToSend = {
+        examArray: this.arrayToSend,
+        examId: this.examId
+      };
       this.checkedAnswers = [];
-      ExamService.continue(this.arrayToSend)
+      ExamService.continue(objectToSend)
         .then(response => {
 
         });
@@ -138,7 +147,8 @@ export default {
   created() {
     Api.get(`topic/${this.$store.state.topicId}`)
       .then(res => {
-        this.quiz = res.data;
+        this.quiz = res.data.test;
+        this.examId = res.data.examId;
         this.quiz.forEach((element, i) => {
           this.arrayToSend.push({ questId: element.id, answers: [] });
         });
