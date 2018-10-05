@@ -16,20 +16,16 @@ exports.createTest = async function (req, res) {
   });
   return createTest(req.params.id)
     .then(test => {
-      const exam = {
-        test: test,
-        examId: examDb.id
-      };
+      const exam = { test, examId: examDb.id };
       res.send(exam);
     });
 };
 
 exports.submitTest = async function (req, res) {
-  const examId = req.body.examId;
   calculateResult(req.body.examArray, req.user.id)
     .then(questions => {
       res.send(questions);
-      saveResult(questions, req.user.id, examId);
+      saveResult(questions, req.user.id, req.body.examId);
     });
 };
 

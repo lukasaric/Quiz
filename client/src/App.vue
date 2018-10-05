@@ -32,14 +32,4 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.danger-alert {
-  color: red;
-}
-.global_img {
-  display: block;
-  height: 100%;
-  width: 100%;
-  opacity: 1;
-  position:fixed;
-}
 </style>

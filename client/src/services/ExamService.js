@@ -9,5 +9,4 @@ export default {
   submit(data) {
     return Api.post(uri, data);
   }
-
 };
