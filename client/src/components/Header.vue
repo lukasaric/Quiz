@@ -3,7 +3,7 @@
     <v-toolbar-title class="mr-4">
       <div class="navbar-brand">
         <a @click="navigateTo('/')" class="navbar-item">
-          <img src="../assets/devRhcrop.png" alt="devRhapsody"/>
+          <img src="../assets/devRhTeal.png" alt="devRhapsody"/>
         </a>
       </div>
     </v-toolbar-title>
@@ -35,7 +35,7 @@
           </v-list-tile>
           <v-list-tile
             @click="logout">
-            <v-icon>fa fa-sign-in</v-icon>
+            <v-icon>fas fa-sign-out-alt</v-icon>
             <v-list-tile-title>Logout</v-list-tile-title>
           </v-list-tile>
         </v-list>

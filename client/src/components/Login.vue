@@ -36,7 +36,7 @@
             <v-chip>or</v-chip>
             <br>
             <v-btn class="white--text" href="/auth/google" target="_blank" color="#d34836">
-              <i class="fa fa-google-plus"></i>
+              <v-icon>fab fa-google-plus-g</v-icon>
               Sign in with google
             </v-btn>
           </v-card>
@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style scoped>
-.fa-google-plus {
+.v-icon {
   color: white;
   margin-left: 10px;
   padding-right: 5px;
