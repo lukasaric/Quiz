@@ -82,14 +82,11 @@ export default {
   font-weight: bold;
 }
 .white--text {
-  text-transform: none !important;
   font-weight: normal;
+  text-transform: none !important;
 }
 .login-container {
   margin: 70px;
   max-width:450px;
-}
-.elevation-12 {
-
 }
 </style>

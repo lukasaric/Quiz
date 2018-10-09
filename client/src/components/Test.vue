@@ -1,6 +1,28 @@
 <template>
   <div>
-    <v-stepper v-model="step" non-linear>
+    <v-layout v-if="isFinished === true" align-center justify-center>
+      <v-flex class="resultContainer" xs12 sm8 md4>
+        <v-card class="resultCard">
+          <div id="result">
+          </div>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              @click="navigateTo('topics')"
+              color="orange darken-3"
+              flat>
+              Return to topics
+            </v-btn>
+            <v-btn
+              color="orange darken-3"
+              flat>
+              Review exam
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-stepper v-else v-model="step" non-linear>
       <v-stepper-header>
         <template v-for="n in steps">
           <v-stepper-step
@@ -69,10 +91,6 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-    <v-card>
-      <div id="result">
-      </div>
-    </v-card>
   </div>
 </template>
 
@@ -94,7 +112,8 @@ export default {
       checkedAnswers: [],
       arrayToSend: [],
       answerIndex: 0,
-      examId: 0
+      examId: 0,
+      isFinished: false
     };
   },
   methods: {
@@ -133,6 +152,7 @@ export default {
       }
     },
     submit() {
+      this.isFinished = true;
       let examScore = 'Results: <br>';
       let examValues = 0;
       const objectToSend = { examArray: this.arrayToSend, examId: this.examId };
@@ -165,8 +185,14 @@ h2 {
 }
 #result {
   margin: auto;
-  margin-top: 6rem;
+  margin-bottom: 3rem;
   text-align: center;
   font-size: 2rem;
+}
+.resultContainer {
+  max-width:600px;
+}
+.resultCard {
+
 }
 </style>

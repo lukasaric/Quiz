@@ -54,7 +54,7 @@ const topics = [{
 }, {
   route: '/test',
   name: 'JavaScript',
-  imgSrc: 'https://static.memrise.com/img/400sqf/from/uploads/course_photos/3146044000171223183557.png',
+  imgSrc: 'https://searchlite.nl/wp-content/uploads/2016/08/JavaScript.png',
   id: 2
 }];
 
