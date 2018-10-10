@@ -5,7 +5,7 @@ import Login from '@/components/Login';
 import Register from '@/components/Register';
 import Topics from '@/components/Topics';
 import Profile from '@/components/Profile';
-import Test from '@/components/Test';
+import Exam from '@/components/Exam';
 import store from '@/store/store';
 
 Vue.use(Router);
@@ -39,9 +39,9 @@ const router = new Router({
         requiresAuth: true
       }
     }, {
-      path: '/test',
-      name: 'test',
-      component: Test,
+      path: '/exam',
+      name: 'exam',
+      component: Exam,
       meta: {
         requiresAuth: true
       }

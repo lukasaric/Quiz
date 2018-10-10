@@ -75,7 +75,6 @@ export default {
             test.score = test.score / test.attempts;
           }
         });
-        console.log(this.tests);
         return this.tests;
       })
       .then(data => {

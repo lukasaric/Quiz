@@ -71,7 +71,7 @@ export default {
     setTopicId(id) {
       // alert(id);
       this.$store.dispatch('setTopicId', id);
-      this.$router.push('/test');
+      this.$router.push('/exam');
     }
   }
 };

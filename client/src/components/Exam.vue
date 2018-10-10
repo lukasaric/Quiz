@@ -26,7 +26,6 @@
       <v-stepper-header>
         <template v-for="n in steps">
           <v-stepper-step
-            :complete="step > n"
             :key="`${n}-step`"
             :step="n"
             editable
@@ -99,7 +98,7 @@ import Api from '@/services/Api';
 import ExamService from '@/services/ExamService';
 let quiz;
 export default {
-  name: 'test',
+  name: 'exam',
   data() {
     return {
       dialog: false,
@@ -190,9 +189,6 @@ h2 {
   font-size: 2rem;
 }
 .resultContainer {
-  max-width:600px;
-}
-.resultCard {
-
+  max-width: 600px;
 }
 </style>
