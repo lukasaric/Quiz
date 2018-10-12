@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     Question.belongsTo(models.Topic, {
       foreignKey: 'topic_fk'
     });
-    Question.belongsToMany(models.Test, {
-      through: 'testQuestion',
+    Question.belongsToMany(models.Exam, {
+      through: 'examQuestion',
       foreignKey: 'question_fk'
     });
     Question.hasMany(models.Answer, {

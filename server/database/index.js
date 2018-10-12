@@ -13,7 +13,7 @@ const db = {
   Answer: sequelize.import('./models/answer'),
   Question: sequelize.import('./models/question'),
   Topic: sequelize.import('./models/topic'),
-  Test: sequelize.import('./models/test'),
+  Exam: sequelize.import('./models/exam'),
   User: sequelize.import('./models/user')
 };
 

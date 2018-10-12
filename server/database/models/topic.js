@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     Topic.hasMany(models.Question, {
       foreignKey: 'topic_fk'
     });
-    Topic.hasMany(models.Test, {
+    Topic.hasMany(models.Exam, {
       foreignKey: 'topic_fk'
     });
   };

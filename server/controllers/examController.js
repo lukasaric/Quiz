@@ -1,16 +1,16 @@
 'use strict';
 
 const uniqueRandom = require('unique-random');
-const { Topic } = require('../database/index');
-const { Answer } = require('../database/index');
-const { Test } = require('../database/index');
-const { Question } = require('../database/index');
+const { Topic } = require('../database');
+const { Answer } = require('../database');
+const { Exam } = require('../database');
+const { Question } = require('../database');
 const Promise = require('bluebird');
 
 const createArray = (length, callback) => Array.from({ length }, callback);
 
 exports.createTest = async function (req, res) {
-  const examDb = await Test.create({
+  const examDb = await Exam.create({
     topic_fk: req.params.id,
     user_fk: req.user.id
   });
@@ -25,7 +25,11 @@ exports.submitTest = async function (req, res) {
   calculateResult(req.body.examArray, req.user.id)
     .then(questions => {
       res.send(questions);
-      saveResult(questions, req.user.id, req.body.examId);
+      const checkedIds = [];
+      questions.forEach((el, i) => {
+        checkedIds[i] = el.answers.map(answer => answer.answerId);
+      });
+      saveResult(questions, req.user.id, req.body.examId, checkedIds);
     });
 };
 
@@ -55,18 +59,17 @@ function calculateResult(data, id) {
   });
 }
 
-function saveResult(questions, userId, examId) {
+function saveResult(questions, userId, examId, checkedAnswersIds) {
   let finalScore = 0;
-  console.log(questions);
   questions.forEach(question => {
     finalScore += question.result * 20;
   });
   const where = { id: questions[0].questId };
   Question.findOne({ where })
     .then(question => {
-      Test.update({
+      Exam.update({
         topic_fk: question.topic_fk,
-        finalScore: finalScore
+        finalScore
       }, { where: { user_fk: userId, id: examId } });
     });
 }
