@@ -14,6 +14,7 @@
               Return to topics
             </v-btn>
             <v-btn
+              @click="review()"
               color="orange darken-3"
               flat>
               Review exam
@@ -128,27 +129,23 @@ export default {
       this.$router.push({ name: route });
     },
     next(index) {
-      for (let i = 0; i < this.checkedAnswers.length; i++) {
+      const currentStep = index + 1;
+      this.checkedAnswers.forEach((el, i) => {
         this.answerIndex = i;
         this.arrayToSend[index].answers
           .push({
-            answText: this.checkedAnswers[i].text,
-            answerId: this.checkedAnswers[i].id,
+            answText: el.text,
+            answerId: el.id,
             index: this.answerIndex
           });
-      }
+      });
       const objectToSend = { examArray: this.arrayToSend, examId: this.examId };
       this.checkedAnswers = [];
       ExamService.continue(objectToSend)
         .then(response => {
           console.log(response);
         });
-      index++;
-      if (index === this.steps) {
-        this.step = index;
-      } else {
-        this.step = index + 1;
-      }
+      this.step = currentStep + 1;
     },
     submit() {
       this.isFinished = true;
@@ -164,6 +161,8 @@ export default {
           const finalResult = `Final result: ${examValues * 20} %`;
           document.getElementById('result').innerHTML = `${examScore} <br> ${finalResult}`;
         });
+    },
+    review() {
     }
   },
   created() {
