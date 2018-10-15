@@ -3,12 +3,38 @@
     class="card mx-auto"
     color="blue-grey lighten-5">
     <v-data-table
+      :headers="headers"
       :items="list"
       hide-actions
       class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td class="text-xs-right">Score: {{ props.item.finalScore }}</td>
-        <td class="text-xs-right">Topic: {{ props.item.category }}</td>
+        <td class="text-xs-left">{{ props.item.id }}</td>
+        <td class="text-xs-left">{{ props.item.score }}%</td>
+        <td class="text-xs-left">{{ props.item.category }}</td>
+        <td>
+          <v-btn
+            @click="review()"
+            color="orange darken-3"
+            flat>
+            Review
+          </v-btn>
+        </td>
+        <td>
+          <v-btn
+            @click="rerun()"
+            color="orange darken-3"
+            flat>
+            Rerun
+          </v-btn>
+        </td>
+        <td>
+          <v-btn
+            @click="resume()"
+            color="orange darken-3"
+            flat>
+            Resume
+          </v-btn>
+        </td>
       </template>
     </v-data-table>
     <div class="hero-body">
@@ -33,55 +59,44 @@ export default {
   name: 'profile',
   data() {
     return {
-      list: [],
-      tests: [{ category: 'git', attempts: 0, score: 0, color: '#66B2FF' },
-        { category: 'javascript', attempts: 0, score: 0, color: '#F6F616' },
-        { category: 'sql', attempts: 0, score: 0, color: '#04D76D' },
-        { category: 'web', attempts: 0, score: 0, color: '#990000' }]
+      headers: [
+        { text: 'Id', value: 'id' },
+        { text: 'Score', value: 'score' },
+        { text: 'Topic', value: 'topic' }
+      ],
+      categories: [{
+        name: 'GIT',
+        id: 1
+      }, {
+        name: 'JavaScript',
+        id: 2
+      }, {
+        name: 'SQL',
+        id: 3
+      }, {
+        name: 'WEB',
+        id: 4
+      }],
+      list: []
     };
   },
   created() {
-    Api.get('/profile')
-      .then(data => {
-        this.list = data.data;
-        this.list.forEach(test => {
-          switch (test.topic_fk) {
-            case 1:
-              this.tests[0].attempts++;
-              this.tests[0].score += test.finalScore;
-              test.category = 'GIT';
-              break;
-            case 2:
-              this.tests[1].attempts++;
-              this.tests[1].score += test.finalScore;
-              test.category = 'JS';
-              break;
-            case 3:
-              this.tests[2].attempts++;
-              this.tests[2].score += test.finalScore;
-              test.category = 'SQL';
-              break;
-            case 4:
-              this.tests[3].attempts++;
-              this.tests[3].score += test.finalScore;
-              test.category = 'WEB';
-              break;
-          }
+    Api.get(`/profile/${this.$store.state.user.id}`)
+      .then(res => {
+        let flag = 0;
+        res.data.forEach((test, i) => {
+          /* this.categories.forEach((el, i) => {
+            if (this.categories[i].id === test.topic_fk) flag = test.topic_fk + 1;
+          }); */
+          this.list.push({ id: test.id, category: this.categories[i].name, score: test.finalScore });
         });
-        this.tests.forEach(test => {
-          if (test.attempts === 0) {
-            test.score = 0;
-          } else {
-            test.score = test.score / test.attempts;
-          }
-        });
-        return this.tests;
+        return this.list;
       })
       .then(data => {
         this.chart = AmCharts.makeChart(this.$refs.chart, {
           type: 'pie',
           theme: 'light',
-          dataProvider: this.tests,
+          dataProvider: this.list,
           valueField: 'attempts',
           titleField: 'category',
           balloon: { fixedPositon: true },
@@ -90,7 +105,7 @@ export default {
         this.chart = AmCharts.makeChart(this.$refs.secondChart, {
           type: 'serial',
           theme: 'light',
-          dataProvider: this.tests,
+          dataProvider: this.list,
           valueField: 'score',
           categoryField: 'category',
           graphs: [{
@@ -133,5 +148,9 @@ export default {
 
 .chart /deep/ .amcharts-chart-div a{
   display: none !important;
+}
+.v-btn {
+  font-weight: normal;
+  text-transform: none !important;
 }
 </style>

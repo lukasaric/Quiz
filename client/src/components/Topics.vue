@@ -59,6 +59,7 @@ const topics = [{
   imgSrc: 'http://www.educoporti.es/wp-content/uploads/2013/10/wwwonline.jpg',
   id: 4
 }];
+
 export default {
   name: 'topics',
   data() {

@@ -1,18 +1,9 @@
 'use strict';
 
-const {Test} = require('../database/index');
+const {Exam} = require('../database/index');
 
 exports.getHistory = function (req, res) {
-  if (req) {
-    Test.findAll({
-      where: {
-        user_fk: req.user.id
-      }
-    })
-      .then(data => {
-        res.send(data);
-      });
-  } else {
-    res.send('Please log in to check your profile');
-  }
+  const where = { user_fk: req.user.id };
+  Exam.findAll({ where })
+    .then(data => res.send(data));
 };
