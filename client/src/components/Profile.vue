@@ -4,7 +4,7 @@
     color="blue-grey lighten-5">
     <v-data-table
       :headers="headers"
-      :items="list"
+      :items="examList"
       hide-actions
       class="elevation-1">
       <template slot="items" slot-scope="props">
@@ -77,28 +77,28 @@ export default {
         name: 'WEB',
         id: 4
       }],
-      list: []
+      examList: []
     };
   },
   created() {
     Api.get(`/profile/${this.$store.state.user.id}`)
       .then(res => {
         let flag = 0;
-        this.list = res.data;
-        this.list.forEach(test => {
+        this.examList = res.data;
+        this.examList.forEach(test => {
           this.categories.forEach((el, i) => {
             if (this.categories[i].id === test.topic_fk) flag = i;
           });
           test = Object.assign(test, { category: this.categories[flag].name });
         });
-        return this.list;
+        return this.examList;
       })
       .then(data => {
         this.chart = AmCharts.makeChart(this.$refs.chart, {
           type: 'pie',
           theme: 'light',
-          dataProvider: this.list,
-          valueField: 'attempts',
+          dataProvider: this.examList,
+          valueField: 'finalScore',
           titleField: 'category',
           balloon: { fixedPositon: true },
           startDuration: 1
@@ -106,15 +106,14 @@ export default {
         this.chart = AmCharts.makeChart(this.$refs.secondChart, {
           type: 'serial',
           theme: 'light',
-          dataProvider: this.list,
-          valueField: 'score',
+          dataProvider: this.examList,
+          valueField: 'finalScore',
           categoryField: 'category',
           graphs: [{
-            fillColorsField: 'color',
             fillAlphas: 0.9,
             lineAlpha: 0.2,
             type: 'column',
-            valueField: 'score'
+            valueField: 'finalScore'
           }],
           balloon: { fixedPositon: true },
           startDuration: 1
