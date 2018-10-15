@@ -9,7 +9,7 @@ const Promise = require('bluebird');
 
 const createArray = (length, callback) => Array.from({ length }, callback);
 
-exports.createTest = async function (req, res) {
+exports.createExam = async function (req, res) {
   const examDb = await Exam.create({
     topic_fk: req.params.id,
     user_fk: req.user.id
@@ -21,7 +21,7 @@ exports.createTest = async function (req, res) {
     });
 };
 
-exports.submitTest = async function (req, res) {
+exports.submitExam = async function (req, res) {
   calculateResult(req.body.examArray, req.user.id)
     .then(questions => {
       res.send(questions);

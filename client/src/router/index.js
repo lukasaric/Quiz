@@ -39,9 +39,10 @@ const router = new Router({
         requiresAuth: true
       }
     }, {
-      path: '/exam',
+      path: '/topics/:topicId/exam',
       name: 'exam',
       component: Exam,
+      props: true,
       meta: {
         requiresAuth: true
       }

@@ -100,6 +100,9 @@ import ExamService from '@/services/ExamService';
 let quiz;
 export default {
   name: 'exam',
+  props: {
+    topicId: { default: 0, type: Number }
+  },
   data() {
     return {
       dialog: false,
@@ -166,7 +169,7 @@ export default {
     }
   },
   created() {
-    Api.get(`topic/${this.$store.state.topicId}`)
+    Api.get(`topic/${this.topicId}`)
       .then(res => {
         this.quiz = res.data.test;
         this.examId = res.data.examId;

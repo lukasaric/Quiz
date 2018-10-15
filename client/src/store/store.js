@@ -10,8 +10,7 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token') || '',
     user: JSON.parse(localStorage.getItem('user')) || '',
-    status: '',
-    topicId: 0
+    status: ''
   },
   getters: {
     isAuthenticated: state => !!state.token,

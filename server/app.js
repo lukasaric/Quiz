@@ -4,8 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const { sequelize } = require('./database');
-const createExam = require('./routes/createExam');
-const profileStats = require('./routes/profileStats');
+const examRoutes = require('./routes/examRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 const authRoutes = require('./routes/authRoutes');
 const passport = require('passport');
 const app = express();
@@ -20,8 +20,8 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 app.use('/auth', authRoutes, handleError);
-app.use('/profile', authenticate, profileStats);
-app.use('/topic', authenticate, createExam);
+app.use('/profile', authenticate, profileRoutes);
+app.use('/topic', authenticate, examRoutes);
 
 function handleError(err, req, res, next) {
   let message = '';

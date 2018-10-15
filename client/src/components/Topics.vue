@@ -6,7 +6,7 @@
       <v-flex
         v-for="(topic, i) in topics"
         :key="i"
-        @click="setTopicId(topic.id)"
+        @click="navigateTo(topic.id)"
         class="card"
         xs2
         sm5
@@ -40,26 +40,25 @@
 <script>
 const topics = [{
   route: '/test',
-  name: 'SQL',
-  imgSrc: 'https://cdn.macworld.co.uk/cmsdata/features/3638150/setup_learn_sql_mac_thumb800.jpg',
-  id: 3
-}, {
-  route: '/test',
   name: 'GIT',
   imgSrc: 'https://student-engineer.net/wp-content/uploads/2018/05/icon_git.png',
   id: 1
 }, {
   route: '/test',
-  name: 'WEB',
-  imgSrc: 'http://www.educoporti.es/wp-content/uploads/2013/10/wwwonline.jpg',
-  id: 4
-}, {
-  route: '/test',
   name: 'JavaScript',
   imgSrc: 'https://searchlite.nl/wp-content/uploads/2016/08/JavaScript.png',
   id: 2
+}, {
+  route: '/test',
+  name: 'SQL',
+  imgSrc: 'https://cdn.macworld.co.uk/cmsdata/features/3638150/setup_learn_sql_mac_thumb800.jpg',
+  id: 3
+}, {
+  route: '/test',
+  name: 'WEB',
+  imgSrc: 'http://www.educoporti.es/wp-content/uploads/2013/10/wwwonline.jpg',
+  id: 4
 }];
-
 export default {
   name: 'topics',
   data() {
@@ -68,10 +67,8 @@ export default {
     };
   },
   methods: {
-    setTopicId(id) {
-      // alert(id);
-      this.$store.dispatch('setTopicId', id);
-      this.$router.push('/exam');
+    navigateTo(id) {
+      this.$router.push({ name: 'exam', params: { topicId: id } });
     }
   }
 };
