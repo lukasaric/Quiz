@@ -9,7 +9,7 @@
       class="elevation-1">
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.id }}</td>
-        <td class="text-xs-left">{{ props.item.score }}%</td>
+        <td class="text-xs-left">{{ props.item.finalScore }}%</td>
         <td class="text-xs-left">{{ props.item.category }}</td>
         <td>
           <v-btn
@@ -84,11 +84,12 @@ export default {
     Api.get(`/profile/${this.$store.state.user.id}`)
       .then(res => {
         let flag = 0;
-        res.data.forEach((test, i) => {
-          /* this.categories.forEach((el, i) => {
-            if (this.categories[i].id === test.topic_fk) flag = test.topic_fk + 1;
-          }); */
-          this.list.push({ id: test.id, category: this.categories[i].name, score: test.finalScore });
+        this.list = res.data;
+        this.list.forEach(test => {
+          this.categories.forEach((el, i) => {
+            if (this.categories[i].id === test.topic_fk) flag = i;
+          });
+          test = Object.assign(test, { category: this.categories[flag].name });
         });
         return this.list;
       })
