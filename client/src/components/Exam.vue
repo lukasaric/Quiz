@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="examContainer">
     <v-layout v-if="isFinished === true" align-center justify-center>
       <v-flex class="resultContainer" xs12 sm8 md4>
         <v-card class="resultCard">
@@ -192,5 +192,8 @@ h2 {
 }
 .resultContainer {
   max-width: 600px;
+}
+.examContainer {
+  margin-bottom: 100px;
 }
 </style>

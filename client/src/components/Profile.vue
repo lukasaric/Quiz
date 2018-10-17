@@ -64,19 +64,12 @@ export default {
         { text: 'Score', value: 'score' },
         { text: 'Topic', value: 'topic' }
       ],
-      categories: [{
-        name: 'GIT',
-        id: 1
-      }, {
-        name: 'JavaScript',
-        id: 2
-      }, {
-        name: 'SQL',
-        id: 3
-      }, {
-        name: 'WEB',
-        id: 4
-      }],
+      categories: [
+        { name: 'GIT', id: 1 },
+        { name: 'JavaScript', id: 2 },
+        { name: 'SQL', id: 3 },
+        { name: 'WEB', id: 4 }
+      ],
       examList: []
     };
   },
@@ -107,9 +100,10 @@ export default {
           type: 'serial',
           theme: 'light',
           dataProvider: this.examList,
-          valueField: 'finalScore',
+          valueField: 'attempts',
           categoryField: 'category',
           graphs: [{
+            lineColor: '#00BFA5',
             fillAlphas: 0.9,
             lineAlpha: 0.2,
             type: 'column',
@@ -126,6 +120,7 @@ export default {
 <style scoped>
 .card {
   width: 80%;
+  margin-bottom: 100px;
 }
 .chart {
   width: 100%;

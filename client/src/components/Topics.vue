@@ -17,7 +17,7 @@
             </v-img>
             <v-card-title primary-title>
               <div>
-                <div class="headline">{{ topic.name }}</div>
+                <h2>{{ topic.name }}</h2>
               </div>
             </v-card-title>
             <v-card-actions>
