@@ -17,17 +17,14 @@ export default new Vuex.Store({
     authStatus: state => state.status
   },
   mutations: {
-    setTopicId(state, topicId) {
-      state.topicId = topicId;
-    },
     authSuccess(state, user) {
       state.token = user.token;
       state.user = user;
-      state.status = 'success';
+      state.status = 'Successfully logged in';
     },
     authError(state) {
       state.token = '';
-      state.status = 'error';
+      state.status = 'Error';
     },
     authLogout(state) {
       state.token = '';
@@ -36,9 +33,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    setTopicId({commit}, topicId) {
-      commit('setTopicId', topicId);
-    },
     login(context, payload) {
       return new Promise((resolve, reject) => {
         AuthService.login(payload)
@@ -66,6 +60,5 @@ export default new Vuex.Store({
         resolve();
       });
     }
-
   }
 });

@@ -5,7 +5,7 @@
         <v-flex class="login-container" xs12 sm8 md4>
           <v-card class="elevation-12">
             <v-toolbar dark color="cyan darken-4">
-              <v-toolbar-title>Sing in</v-toolbar-title>
+              <v-toolbar-title>Sign in</v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
@@ -59,7 +59,7 @@ export default {
     login() {
       const credentials = { email: this.email, password: this.password };
       this.$store.dispatch('login', credentials)
-        .then(() => {
+        .then((response) => {
           this.$router.push({ path: '/topics' });
         });
     },
